@@ -1,7 +1,7 @@
 ### Overview
-This library aims at providing functionality for handling common tasks in an efficient way through a set of simple APIs.
+This library aims to provide functionality for handling common tasks efficiently through a set of simple APIs.
 
-The public APIs placed in the `pub` package, currently implemented classes with functionality:
+The public APIs placed in the `pub` package, are currently implemented classes with functionality:
 #### AsyncHandler - an interface for handling asynchronous operations
 
 To get a value "Success" value or fallback to "Default" value after 2 seconds asynchronously, here is what we typically do:
@@ -15,15 +15,18 @@ String result = "Default";
 try {
     result = completableFuture.get(2000L, TimeUnit.MILLISECONDS);
 } catch (InterruptedException e) {
+...
 } catch (ExecutionException e) {
+...
 } catch (TimeoutException e) {
+...
 }
 System.out.println(result);
 ```
-What we want to achieve is simple, but there are too much information we need to take care of in this case. What is an `ExecutorService`, 
-what is `CompletetableFuture`, why there are so many different exceptions, and what should we do in case they occurred?
+What we want to achieve is simple, but there is too much information we need to take care of in this case. What is an `ExecutorService`, 
+what is `CompletetableFuture`, why are there so many different exceptions, and what should we do in case they occurred?
 
-`AsyncHandler` gives you a set of simple APIs to handle asynchronous operations, taking care of timeout, retries, unnecessary try-catch blocks.
+`AsyncHandler` gives you a set of simple APIs to handle asynchronous operations, taking care of timeout, retries, and unnecessary try-catch blocks.
 Now, here is how we achieve the equivalent result with `AsyncHandler`:
 
 ```java
@@ -60,7 +63,7 @@ AsyncHandler.withDefault().awaitBackoffWithBackoffConfig(() -> someExpensiveOper
 // custom pool size:
 String val = AsyncHandler.withPoolSize(5).await(() -> "Result", "Default"); 
 // with cached pool size:
-String val = AsyncHandler.withCachedPoolSize(5).await(() -> "Result", "Default");
+String anotherVal = AsyncHandler.withCachedPoolSize(5).await(() -> "Result", "Default");
 ```
 
 More detail documentation can be found in the `AsyncHandler` interface.
